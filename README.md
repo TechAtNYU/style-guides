@@ -10,3 +10,8 @@ Internal style guide that was inspired by the [Khan Academy style guides](https:
 - AngularJS
 - Python
 - Jekyll
+
+## Tool Style Guides
+
+- CircleCI
+- Static sites
