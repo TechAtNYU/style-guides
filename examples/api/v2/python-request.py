@@ -3,8 +3,8 @@
 
 import requests, json
 
-headers = {'content-type': 'application/vnd.api+json', 'accept': 'application/*, text/*', 'x-api-key': ''}
-r = requests.get('https://api.tnyu.org/v2-test/events', headers=headers, verify=False)
+headers = {'content-type': 'application/vnd.api+json', 'accept': 'application/*, text/*', 'x-api-key': os.environ['TNYU_API_KEY']}
+r = requests.get('https://api.tnyu.org/v2/events', headers=headers, verify=False)
 data = json.loads(r.text)
 
 # All events
