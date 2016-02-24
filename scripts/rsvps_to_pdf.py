@@ -39,5 +39,6 @@ pdf_title = event['attributes']['title'].replace(' ', '_')
 rowmaker = RowSpec(ColumnSpec('name', 'Name'),
                    ColumnSpec('email', 'Email'))
 lines = rowmaker.makeall(rsvp_for_pdf)
-pdfmaker = PDFTable('Attendees for ' + event['attributes']['title'], headers=rowmaker)
+pdfmaker = PDFTable('Attendees for ' +
+                    event['attributes']['title'], headers=rowmaker)
 open(pdf_title + '.pdf', 'wb').write(pdfmaker.render(lines))
