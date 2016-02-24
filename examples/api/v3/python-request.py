@@ -35,7 +35,7 @@ data = json.loads(r.text)
 print data
 
 # Updating data to the API
-# Update a resource 'event' with the id '5602db849a24fbd3eec8153f'
+## Update a resource 'event' with the id '5602db849a24fbd3eec8153f'
 resource_type = 'events'
 resource_id = '5602db849a24fbd3eec8153f'
 
