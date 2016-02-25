@@ -1,7 +1,5 @@
 var request = require('request');
 
-var EVENT_ID = '56c29c57e7afddface1d78c8';
-
 var addToSlack = function(person) {
     if (person['attributes'] && person['attributes']['contact'] && person['attributes']['contact']['email']) {
         request.post({
@@ -24,23 +22,29 @@ var addToSlack = function(person) {
     }
 }
 
-request({
-    //this disables the ssl security (would accept a fake certificate). see:
-    //http://stackoverflow.com/questions/20082893/unable-to-verify-leaf-signature
-    "rejectUnauthorized": false,
-    "url": 'https://api.tnyu.org/v3/events/' + EVENT_ID + '?include=rsvps',
-    "headers": {
-        "content-type": "application/vnd.api+json",
-        "accept": "application/*, text/html, */*",
-        "authorization": "Bearer " + process.env.TNYU_API_KEY
-    },
-    timeout: 100000
-}, function(err, response, body) {
-    var apiJson = JSON.parse(body),
-        event = apiJson["data"],
-        rsvps = apiJson["included"];
+var getEventData = function (EVENT_ID) {
+    request({
+        //this disables the ssl security (would accept a fake certificate). see:
+        //http://stackoverflow.com/questions/20082893/unable-to-verify-leaf-signature
+        "rejectUnauthorized": false,
+        "url": 'https://api.tnyu.org/v3/events/' + EVENT_ID + '?include=rsvps',
+        "headers": {
+            "content-type": "application/vnd.api+json",
+            "accept": "application/*, text/html, */*",
+            "authorization": "Bearer " + process.env.TNYU_API_KEY
+        },
+        timeout: 100000
+    }, function(err, response, body) {
+        var apiJson = JSON.parse(body),
+            event = apiJson["data"],
+            rsvps = apiJson["included"];
 
-    rsvps.forEach(function(person) {
-        addToSlack(person);
+        rsvps.forEach(function(person) {
+            addToSlack(person);
+        });
     });
-});
+};
+
+setInterval(function() {
+  getEventData('56c29c57e7afddface1d78c8');
+}, 5 * 60 * 1000);
