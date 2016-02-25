@@ -46,5 +46,5 @@ var getEventData = function (EVENT_ID) {
 };
 
 setInterval(function() {
-  getEventData('56c29c57e7afddface1d78c8');
+    getEventData('56c29c57e7afddface1d78c8');
 }, 5 * 60 * 1000);
