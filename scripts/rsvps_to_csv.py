@@ -6,12 +6,12 @@
 import requests
 import json
 import os
-from TableFactory import *
+import csv
 
 BASE_URL = 'https://api.tnyu.org/v3'
 TEST_BASE_URL = 'https://api.tnyu.org/v3-test'
 
-EVENT_ID = '56c29c57e7afddface1d78c8'
+EVENT_ID = '56d77321024bf852f5234c07'
 
 headers = {
     'content-type': 'application/vnd.api+json',
@@ -27,20 +27,20 @@ event = data['data']
 rsvps = data['included']
 
 # Print emails
-rsvp_for_pdf = []
+rsvp_for_csv = []
 
 for i in rsvps:
     to_append = {
         'name': i['attributes']['name'],
         'email': i['attributes']['contact']['email']
     }
-    rsvp_for_pdf.append(to_append)
+    rsvp_for_csv.append(to_append)
 
-pdf_title = event['attributes']['title'].replace(' ', '_')
+csv_title = event['attributes']['title'].replace(' ', '_')
 
-rowmaker = RowSpec(ColumnSpec('name', 'Name'),
-                   ColumnSpec('email', 'Email'))
-lines = rowmaker.makeall(rsvp_for_pdf)
-pdfmaker = PDFTable('Attendees for ' +
-                    event['attributes']['title'], headers=rowmaker)
-open(pdf_title + '.pdf', 'wb').write(pdfmaker.render(lines))
+keys = rsvp_for_csv[0].keys()
+
+with open(csv_title + '.csv', 'wb') as output_file:
+    dict_writer = csv.DictWriter(output_file, keys)
+    dict_writer.writeheader()
+    dict_writer.writerows(rsvp_for_csv)
