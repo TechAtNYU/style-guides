@@ -8,7 +8,7 @@ import os
 BASE_URL = 'https://api.tnyu.org/v3'
 TEST_BASE_URL = 'https://api.tnyu.org/v3-test'
 
-EVENT_ID = '56c29c57e7afddface1d78c8'
+EVENT_ID = '56d501ed9ceb9b64d2b11ea2'
 
 headers = {
     'content-type': 'application/vnd.api+json',
@@ -31,4 +31,5 @@ for i in rsvps:
 
 # Print emails
 for i in rsvps:
-    print i['attributes']['contact']['email']
+    if 'contact' in i['attributes']:
+        print i['attributes']['contact']['email']
