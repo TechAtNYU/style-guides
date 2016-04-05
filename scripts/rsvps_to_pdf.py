@@ -32,7 +32,7 @@ rsvp_for_pdf = []
 for i in rsvps:
     to_append = {
         'name': i['attributes']['name'],
-        'email': i['attributes']['contact']['email']
+        'email': i['attributes']['contact']['email'] if ('contact' in i['attributes'] and 'email' in i['attributes']['contact']) else ''
     }
     rsvp_for_pdf.append(to_append)
 
